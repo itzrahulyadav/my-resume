@@ -126,23 +126,27 @@ export default function Home() {
             </a>
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors">
-              Schedule a Demo
-            </button>
-            <button className="px-6 py-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors">
-              Try Sketchpad
-            </button>
+            <a href="tel:+919691868731" className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors">
+              Call Me
+            </a>
+            <a href="www.abstractionapp.click" className="px-6 py-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors">
+              Try Abstraction
+            </a>
           </div>
         </div>
         {cards.map((card) => (
           <motion.div
             key={card.id}
-            className={`absolute w-64 p-4 rounded-2xl bg-white/10 backdrop-blur-md border shadow-md text-center transition-transform duration-300 hover:scale-105 ${
-              card.content === 'DevOps' ? 'border-blue-500/30 shadow-blue-500/20' : 
-              card.content === 'Networking' ? 'border-pink-500/30 shadow-pink-500/20' : 
-              'border-purple-500/30 shadow-purple-500/20'
+            className={`absolute w-64 p-4 rounded-2xl bg-white/10 backdrop-blur-lg border text-center transition-transform duration-300 hover:scale-105 ${
+              card.content === 'DevOps' ? 'border-blue-500/30' : 
+              card.content === 'Networking' ? 'border-pink-500/30' : 
+              'border-purple-500/30'
             }`}
-            style={{ top: `${card.top}%`, left: `${card.left}%` }}
+            style={{ 
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.2)', // Custom shadow with more blur
+              top: `${card.top}%`, 
+              left: `${card.left}%` 
+            }}
             animate={controls}
           >
             <div className="mb-3 flex justify-center">
