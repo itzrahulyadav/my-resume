@@ -1,103 +1,219 @@
-import Image from "next/image";
+'use client';
+
+import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  // Floating card animation states
+  const [cards, setCards] = useState([
+    { id: 1, top: 10, left: 10, velocityX: 0.5, velocityY: 0.5, content: 'DevOps' },
+    { id: 2, top: 20, left: 70, velocityX: -0.3, velocityY: 0.3, content: 'Networking' },
+    { id: 3, top: 50, left: 30, velocityX: 0.2, velocityY: -0.5, content: 'Cloud Security' },
+  ]);
+
+  const controls = useAnimation();
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const animateCards = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const updatePositions = () => {
+        setCards((prev) =>
+          prev.map((card) => {
+            let newTop = card.top + card.velocityY;
+            let newLeft = card.left + card.velocityX;
+
+            // Bounce off edges
+            if (newTop <= 0 || newTop >= 90) card.velocityY = -card.velocityY; // 90% to stay within bounds
+            if (newLeft <= 0 || newLeft >= 90) card.velocityX = -card.velocityX; // 90% to stay within bounds
+
+            // Keep within hero section
+            newTop = Math.max(0, Math.min(90, newTop));
+            newLeft = Math.max(0, Math.min(90, newLeft));
+
+            return { ...card, top: newTop, left: newLeft };
+          })
+        );
+      };
+
+      controls.start({
+        transition: {
+          duration: 3, // Slower animation
+          repeat: Infinity,
+          repeatType: 'mirror', // Ping-pong effect
+          ease: 'easeInOut',
+        },
+      });
+
+      const interval = setInterval(updatePositions, 50); // Slower update rate (~20 FPS)
+      return () => {
+        clearInterval(interval);
+      };
+    };
+    animateCards();
+  }, [controls]);
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      {/* Header with Glassmorphism */}
+      <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+        <nav className="container mx-auto flex justify-between items-center py-4 px-6">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">
+            Rahul Yadav
+          </div>
+          <div className="hidden md:flex space-x-8">
+            <Link href="#about" className="hover:text-purple-300 transition-colors">
+              About Me
+            </Link>
+            <Link href="#projects" className="hover:text-purple-300 transition-colors">
+              Projects
+            </Link>
+            <Link href="#contact" className="hover:text-purple-300 transition-colors">
+              Contact Me
+            </Link>
+          </div>
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+              />
+            </svg>
+          </button>
+        </nav>
+        {isMenuOpen && (
+          <div className="md:hidden bg-black/90 backdrop-blur-md border-t border-white/10">
+            <div className="container mx-auto py-4 px-6 flex flex-col space-y-4">
+              <Link href="#about" className="hover:text-purple-300 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                About Me
+              </Link>
+              <Link href="#projects" className="hover:text-purple-300 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                Projects
+              </Link>
+              <Link href="#contact" className="hover:text-purple-300 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                Contact Me
+              </Link>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Hero Section with Animated Floating Cards */}
+      <section ref={sectionRef} className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div className="container mx-auto px-6 text-center z-10">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-400">
+            I am Rahul Yadav
+          </h1>
+          <p className="text-xl md:text-2xl mb-8">
+            Connect with me on{' '}
+            <a
+              href="https://www.linkedin.com/in/rahul-yadav-2a4b3b199/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-purple-300 transition-colors"
+            >
+              LinkedIn
+            </a>
+          </p>
+          <div className="flex justify-center space-x-4">
+            <button className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors">
+              Schedule a Demo
+            </button>
+            <button className="px-6 py-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors">
+              Try Sketchpad
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {cards.map((card) => (
+          <motion.div
+            key={card.id}
+            className={`absolute w-64 p-4 rounded-2xl bg-white/10 backdrop-blur-md border shadow-md text-center transition-transform duration-300 hover:scale-105 ${
+              card.content === 'DevOps' ? 'border-blue-500/30 shadow-blue-500/20' : 
+              card.content === 'Networking' ? 'border-pink-500/30 shadow-pink-500/20' : 
+              'border-purple-500/30 shadow-purple-500/20'
+            }`}
+            style={{ top: `${card.top}%`, left: `${card.left}%` }}
+            animate={controls}
+          >
+            <div className="mb-3 flex justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-10 w-10 ${
+                  card.content === 'DevOps' ? 'text-blue-500' : 
+                  card.content === 'Networking' ? 'text-pink-500' : 
+                  'text-purple-500'
+                }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                {card.content === 'DevOps' && (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                )}
+                {card.content === 'Networking' && (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 7h8m-8 3h8m-8 3h8m-8 3h8m-8-9v12m8-12v12"
+                  />
+                )}
+                {card.content === 'Cloud Security' && (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4zm0 0c0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4-4 1.79-4 4z"
+                  />
+                )}
+              </svg>
+            </div>
+            <h2 className={`text-lg font-bold mb-1 ${
+              card.content === 'DevOps' ? 'text-blue-500' : 
+              card.content === 'Networking' ? 'text-pink-500' : 
+              'text-purple-500'
+            }`}>
+              {card.content}
+            </h2>
+            <p className="text-gray-300 text-sm">
+              {card.content === 'DevOps' && 'Streamline your deployment pipeline.'}
+              {card.content === 'Networking' && 'Optimize your network performance.'}
+              {card.content === 'Cloud Security' && 'Protect your cloud assets securely.'}
+            </p>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* Additional Cards Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
+            <div className="text-2xl mb-2">Coffee Compilers</div>
+            <p className="text-gray-300">Servers run on premium coffee. No crashes, just caffeine!</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
+            <div className="text-2xl mb-2">Eureka Engine</div>
+            <p className="text-gray-300">So intuitive, it’ll finish your infrastructure before you do.</p>
+          </div>
+          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
+            <div className="text-2xl mb-2">Backup Proof</div>
+            <p className="text-gray-300">Unlike your ex, our platform won’t leave you unexpectedly.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
