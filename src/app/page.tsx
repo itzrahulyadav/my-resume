@@ -143,7 +143,11 @@ export default function Home() {
               'border-purple-500/30'
             }`}
             style={{ 
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.2)', // Custom shadow with more blur
+              boxShadow: `0 10px 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.2), ${
+                card.content === 'DevOps' ? '0 0 20px rgba(59, 130, 246, 0.5)' : 
+                card.content === 'Networking' ? '0 0 20px rgba(236, 72, 153, 0.5)' : 
+                '0 0 20px rgba(168, 85, 247, 0.5)'
+              }`, // Added glow effect matching border color
               top: `${card.top}%`, 
               left: `${card.left}%` 
             }}
