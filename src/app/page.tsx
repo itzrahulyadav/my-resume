@@ -192,7 +192,7 @@ export default function Home() {
             poster="https://your-bucket-name.s3.amazonaws.com/path/to/thumbnail.jpg"
           >
             <source
-              src="https://your-bucket-name.s3.amazonaws.com/path/to/video.mp4"
+              src="https://eks-rxhxl.s3.ap-south-1.amazonaws.com/Screen+Recording+2025-07-22+at+1.22.00%E2%80%AFAM.mov"
               type="video/mp4"
             />
             Your browser does not support the video tag.
