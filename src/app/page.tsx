@@ -164,23 +164,45 @@ export default function Home() {
         ))}
       </section>
 
-      {/* Additional Cards Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
-            <div className="text-2xl mb-2">Coffee Compilers</div>
-            <p className="text-gray-300">Servers run on premium coffee. No crashes, just caffeine!</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
-            <div className="text-2xl mb-2">Eureka Engine</div>
-            <p className="text-gray-300">So intuitive, it’ll finish your infrastructure before you do.</p>
-          </div>
-          <div className="bg-gradient-to-br from-purple-900 to-purple-700 p-6 rounded-xl backdrop-blur-md text-center">
-            <div className="text-2xl mb-2">Backup Proof</div>
-            <p className="text-gray-300">Unlike your ex, our platform won’t leave you unexpectedly.</p>
-          </div>
+
+
+      {/* Navigation Buttons Section */}
+      <section className="py-16 bg-black text-white">
+        <div className="container mx-auto px-6 flex flex-col items-center space-y-4">
+          <Link href="/videos" className="w-64 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-full text-center transition-colors">
+            Videos
+          </Link>
+          <Link href="/blogs" className="w-64 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-full text-center transition-colors">
+            Blogs
+          </Link>
+          <Link href="/notes" className="w-64 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-full text-center transition-colors">
+            Notes
+          </Link>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-black/30 backdrop-blur-md border-t border-white/10 py-8">
+        <div className="container mx-auto px-6 text-center">
+          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 mb-4">
+            Rahul Yadav
+          </div>
+          <div className="flex justify-center space-x-6 mb-4">
+            <a href="https://www.linkedin.com/in/rahul-yadav-2a4b3b199/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-purple-300 transition-colors">
+              LinkedIn
+            </a>
+            <a href="https://github.com/rahulyadav2a4b3b199" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-purple-300 transition-colors">
+              GitHub
+            </a>
+            <a href="mailto:rahul@example.com" className="text-gray-300 hover:text-purple-300 transition-colors">
+              Email
+            </a>
+          </div>
+          <p className="text-gray-400 text-sm">
+            © {new Date().getFullYear()} Rahul Yadav. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
