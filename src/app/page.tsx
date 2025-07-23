@@ -181,24 +181,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* 🎥 Video Player Section */}
-      <section className="py-16 bg-black text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6">Watch My Demo</h2>
-          <video
-            controls
-            className="mx-auto w-full max-w-3xl rounded-lg shadow-lg"
-            poster="https://your-bucket-name.s3.amazonaws.com/path/to/thumbnail.jpg"
-          >
-            <source
-              src="https://eks-rxhxl.s3.ap-south-1.amazonaws.com/Screen+Recording+2025-07-22+at+1.22.00%E2%80%AFAM.mov"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      </section>
     </div>
   );
 }
