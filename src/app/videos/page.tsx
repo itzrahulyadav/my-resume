@@ -29,10 +29,10 @@ export default function Videos() {
             className="mx-auto w-full max-w-3xl rounded-lg shadow-lg"
             poster="https://your-bucket-name.s3.amazonaws.com/path/to/thumbnail.jpg"
           >
-            <source
-              src="https://eks-rxhxl.s3.ap-south-1.amazonaws.com/Screen+Recording+2025-07-22+at+1.22.00%E2%80%AFAM.mov"
- lane="true"            type="video/mp4"
-            />
+           <source
+  src="https://eks-rxhxl.s3.ap-south-1.amazonaws.com/Screen+Recording+2025-07-22+at+1.22.00%E2%80%AFAM.mov"
+  type="video/mp4"
+/>
             Your browser does not support the video tag.
           </video>
         </div>
